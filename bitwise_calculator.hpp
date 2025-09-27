@@ -67,6 +67,7 @@ class Parser
     Integer term();
     Integer subterm();
     Integer expression();
+
     void define_variable();
     void set_variable();
 

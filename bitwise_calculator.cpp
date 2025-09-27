@@ -123,7 +123,6 @@ void Token_Stream::putback(Token token)
     buffer = token;
 }
 
-// Реализация Parser
 Parser::Parser(Token_Stream& token_stream, std::map<String, std::pair<bool, Integer>>& variables)
     : token_stream(token_stream), variables(variables)
 {}
@@ -133,6 +132,14 @@ Integer Parser::primary()
     auto token = token_stream.get();
 
     if (token.type == Token::Type::INTEGER) { return std::get<Integer>(token.value); }
+    if (token.type == Token::Type::NAME)
+    {
+        auto name = std::get<String>(token.value);
+
+        if (not variables.contains(name)) { throw std::runtime_error("variable don'r defined"); }
+
+        return variables.at(name).second;
+    }
 
     if (token.type == Token::Type::NOT) { return !primary(); }
     if (token.type == Token::Type::BITWISE_NOT) { return ~primary(); }
