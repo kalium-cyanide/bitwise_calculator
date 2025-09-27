@@ -1,12 +1,11 @@
-
+#include "../sources/bitwise_calculator.hpp"
 
 #include <cstdint>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <sstream>
+#include <stdexcept>
 #include <string>
-
-#include "bitwise_calculator.hpp"
 
 uint32_t evaluate(std::string expr)
 {
@@ -163,6 +162,15 @@ TEST(BitwiseCalculatorTest, ComplexExpressions)
     EXPECT_EQ(evaluate("~(!0) & 255"), 254U);
     EXPECT_EQ(evaluate("((~0) & 255) | (!0)"), 255U | 1U);
     EXPECT_EQ(evaluate("1 | 2 | 4 | 8 | 16 | 32 | 64 | 128"), 255U);
+}
+
+TEST(BitwiseCalculatorTest, Variables)
+{
+    EXPECT_EQ(evaluate("let a 10 a"), 10U);
+    EXPECT_EQ(evaluate("const a 10 a"), 10U);
+
+    EXPECT_EQ(evaluate("let a 10 set a 100 a"), 100U);
+    EXPECT_THROW(evaluate("const a 10 set a 100 a"), std::runtime_error);
 }
 
 int main(int argc, char** argv)

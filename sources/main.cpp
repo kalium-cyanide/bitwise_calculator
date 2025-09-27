@@ -1,5 +1,11 @@
 #include "bitwise_calculator.hpp"
+#include <cstdint>
+#include <iostream>
+#include <map>
+#include <optional>
 #include <vector>
+
+constexpr auto Ch_Zero = '0';
 
 int main()
 try

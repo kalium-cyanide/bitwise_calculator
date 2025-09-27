@@ -15,9 +15,15 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-add_executable(bitwise_calculator main.cpp bitwise_calculator.cpp)
+set(SOURCE_FILE
+  sources/parser/parser.cpp
+  sources/token/token.cpp
+  sources/token_stream/token_stream.cpp
+)
 
-add_executable(tests tests.cpp bitwise_calculator.cpp)
+add_executable(bitwise_calculator sources/main.cpp ${SOURCE_FILE})
+
+add_executable(tests tests/tests.cpp ${SOURCE_FILE})
 
 target_link_libraries(tests gtest gmock)
 
